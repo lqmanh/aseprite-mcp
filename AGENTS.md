@@ -64,11 +64,11 @@ uv run pytest tests/test_file.py::test_function_name -v
 
 ### MCP Tool Patterns
 
-- All tools must be `async` functions
 - Decorate with `@mcp.tool`
-- Return type must be `str` (human-readable result message)
-- Document with docstrings including Args section
-- Validate inputs (e.g., check file existence with `os.path.exists()`)
+- Define input/output data as Pydantic models in the same file
+- Name input models as `<ToolName>Input` and output models as `<ToolName>Output`
+- Use shared models from `core/schemas/inputs.py` or `core/schemas/outputs.py` only when used by multiple tools
+- Validate inputs using Pydantic annotated validators (`ExistingFile`, `HexColor`, `NonEmptyStr`,...)
 - Return descriptive success/failure messages
 
 ### Error Handling
@@ -88,9 +88,24 @@ uv run pytest tests/test_file.py::test_function_name -v
 ### Project Structure
 
 - `aseprite_mcp/mcp.py`: MCP server instance
-- `aseprite_mcp/tools/`: Tool implementations (canvas, drawing, export)
-- `aseprite_mcp/core/`: Core utilities (commands)
-- Tools imported in `tools/__init__.py` to auto-register
+- `aseprite_mcp/tools/`: Tool implementations organized by category:
+  - `animation/`: Animation tools (set_frame_duration, create_tag)
+  - `canvas/`: Canvas management (create_canvas, add_layer, add_frame, etc.)
+  - `drawing/`: Drawing tools (draw_pixels, draw_line, draw_rectangle, etc.)
+  - `export/`: Export tools (export_sprite)
+  - `inspection/`: Inspection tools (get_pixels)
+  - `palette/`: Palette tools (get_palette, set_palette, etc.)
+  - `selection/`: Selection tools (select_rectangle, select_all, etc.)
+  - `transform/`: Transform tools (flip_sprite, rotate_sprite, etc.)
+- `aseprite_mcp/core/`: Core utilities
+  - `commands.py`: Aseprite command execution
+  - `enums.py`: StrEnum types (ColorMode, AnimationDirection, etc.)
+  - `schemas/`: Pydantic schemas
+    - `inputs.py`: Shared input models
+    - `outputs.py`: Shared output models (OperationOutput, PixelData, SpriteDimensions)
+  - `types.py`: Additional type definitions
+  - `utils.py`: Utility functions (parse_hex_color, escape_lua_str)
+  - `validation.py`: Reusable Pydantic validators (ExistingFile, HexColor, NonEmptyStr)
 
 ### Security
 
@@ -102,13 +117,13 @@ uv run pytest tests/test_file.py::test_function_name -v
 
 Core:
 
-- `fastmcp>=3.0.2`: MCP server framework
-- `python-dotenv>=1.0.0`: Environment variable management
+- `fastmcp`: MCP server framework
+- `python-dotenv`: Environment variable management
 
 Dev:
 
-- `ruff>=0.9.0`: Linting and formatting
-- `ty>=0.0.1`: Type checking
+- `ruff`: Linting and formatting
+- `ty`: Type checking
 
 ## Environment Setup
 

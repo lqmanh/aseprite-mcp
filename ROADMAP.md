@@ -1,55 +1,60 @@
 # Aseprite MCP - Roadmap
 
-## Phase 1: Fundamental Features
+## Phase 1: Fundamental Features - COMPLETE
 
 Core tools that work with Aseprite's Lua API without requiring additional Python libraries.
 
-### Canvas Management (4 tools)
+### Canvas Management (7 tools)
 
-- [ ] `get_sprite_info` - Read sprite metadata (width, height, color_mode, frames, layers)
-- [ ] `delete_layer` - Remove layer (prevent deleting last layer)
-- [ ] `delete_frame` - Remove frame (prevent deleting last frame)
-- [ ] `flatten_layers` - Merge all visible layers
-
-### Canvas Enhancement
-
-- [ ] Add `color_mode` parameter to `create_canvas` (rgb/grayscale/indexed)
+- [x] `create_canvas` - Create new canvas with color_mode parameter (rgb/grayscale/indexed)
+- [x] `add_layer` - Add new layer with name validation, returns layer_index (0-based)
+- [x] `add_frame` - Add frame with duration, returns frame_index (0-based)
+- [x] `get_sprite_info` - Read sprite metadata (width, height, color_mode, frames, layers)
+- [x] `delete_layer` - Remove layer (prevent deleting last layer)
+- [x] `delete_frame` - Remove frame (prevent deleting last frame)
+- [x] `flatten_layers` - Merge all visible layers
 
 ### Inspection Tools (1 tool)
 
-- [ ] `get_pixels` - Read pixel data with cursor-based pagination
-  - Support page_size parameter (default 1000, max 10000)
-  - Return next_cursor for pagination
+- [x] `get_pixels` - Read pixel data with cursor-based pagination
 
 ### Selection Tools (5 tools)
 
-- [ ] `select_rectangle` - Rectangle selection with modes (replace/add/subtract/intersect)
-- [ ] `select_ellipse` - Elliptical selection
-- [ ] `select_all` - Select entire canvas
-- [ ] `deselect` - Clear selection
-- [ ] `move_selection` - Move by offset (dx, dy)
+- [x] `select_rectangle` - Rectangle selection with modes (replace/add/subtract/intersect)
+- [x] `select_ellipse` - Elliptical selection
+- [x] `select_all` - Select entire canvas
+- [x] `deselect` - Clear selection
+- [x] `move_selection` - Move by offset (dx, dy)
 
 ### Animation Tools (2 tools)
 
-- [ ] `set_frame_duration` - Set frame timing in milliseconds
-- [ ] `create_tag` - Animation tags with direction (forward/reverse/pingpong)
+- [x] `set_frame_duration` - Set frame timing in milliseconds (0-based frame_index)
+- [x] `create_tag` - Animation tags with direction (forward/reverse/pingpong)
 
 ### Transform Tools (4 tools)
 
-- [ ] `flip_sprite` - Horizontal/vertical flip
-- [ ] `rotate_sprite` - 90/180/270 degree rotation
-- [ ] `crop_sprite` - Crop to region
-- [ ] `resize_canvas` - Resize with anchor positions
+- [x] `flip_sprite` - Horizontal/vertical flip with target (sprite/layer/cel)
+- [x] `rotate_sprite` - 90/180/270 degree rotation with target
+- [x] `crop_sprite` - Crop to region, returns SpriteDimensions
+- [x] `resize_canvas` - Resize with anchor positions, returns SpriteDimensions
 
 ### Palette Tools (5 tools)
 
-- [ ] `get_palette` - Read current palette
-- [ ] `set_palette` - Set entire palette from color array
-- [ ] `set_palette_color` - Modify single color by index
-- [ ] `add_palette_color` - Append color to palette
-- [ ] `sort_palette` - Sort by hue/saturation/brightness/luminance
+- [x] `get_palette` - Read current palette (returns #RRGGBBAA with alpha)
+- [x] `set_palette` - Set entire palette from color array (supports 0-256 colors)
+- [x] `set_palette_color` - Modify single color by 0-based index
+- [x] `add_palette_color` - Append color to palette (max 256), returns color_index
+- [x] `sort_palette` - Sort by hue/saturation/brightness/luminance
 
-**Phase 1 Total: 22 tools**
+**Phase 1 Total: 24 tools**
+
+### Key Design Decisions
+
+1. **0-based indexing in Python** - All frame/layer indices use 0-based indexing in Python API, converted to 1-based for Lua
+2. **StrEnum types** - Using `AnimationDirection`, `FlipDirection`, `TransformTarget`, `SelectionMode`, `PaletteSortMethod` for type safety
+3. **Structured outputs** - Tools return Pydantic models instead of plain strings where appropriate
+4. **Hex color format** - All colors use #RRGGBB or #RRGGBBAA format with alpha support
+5. **Pydantic validation** - Input validation via Pydantic with reusable `ExistingFile`, `HexColor`, `NonEmptyStr` types
 
 ## Phase 2: Advanced Features
 
@@ -148,12 +153,12 @@ Tools requiring additional Python libraries (Pillow, numpy, scikit-learn) for im
 
 ## Summary
 
-| Phase                | Tools        | Dependencies                               |
-| -------------------- | ------------ | ------------------------------------------ |
-| Phase 1: Fundamental | 22 tools     | None (pure Lua)                            |
-| Phase 2: Advanced    | 12 tools     | Complex Lua algorithms                     |
-| Phase 3: Optional    | 7 tools      | Pillow, numpy, scikit-learn, colorspacious |
-| **Total**            | **41 tools** |                                            |
+| Phase                | Tools        | Status   | Dependencies                               |
+| -------------------- | ------------ | -------- | ------------------------------------------ |
+| Phase 1: Fundamental | 24 tools     | Complete | None (pure Lua)                            |
+| Phase 2: Advanced    | 12 tools     | Pending  | Complex Lua algorithms                     |
+| Phase 3: Optional    | 7 tools      | Future   | Pillow, numpy, scikit-learn, colorspacious |
+| **Total**            | **43 tools** |          |                                            |
 
 ### Python Dependencies for Phase 3
 
@@ -166,10 +171,3 @@ advanced = [
     "colorspacious>=1.1.0",  # LAB color space conversions
 ]
 ```
-
-### Critical Path
-
-1. **get_sprite_info** (Phase 1) → Required for input validation across all tools
-2. **get_pixels** (Phase 1) → Required for Phase 3 analysis/shading/antialiasing
-3. **Palette tools** (Phase 1) → Required for UsePalette flag in drawing operations
-4. **Selection tools** (Phase 1) → Required for transform operations on selections
