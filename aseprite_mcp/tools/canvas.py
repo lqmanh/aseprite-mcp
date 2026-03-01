@@ -2,8 +2,11 @@ import os
 from ..core.commands import AsepriteCommand
 from .. import mcp
 
+
 @mcp.tool()
-async def create_canvas(width: int, height: int, filename: str = "canvas.aseprite") -> str:
+async def create_canvas(
+    width: int, height: int, filename: str = "canvas.aseprite"
+) -> str:
     """Create a new Aseprite canvas with specified dimensions.
 
     Args:
@@ -16,13 +19,14 @@ async def create_canvas(width: int, height: int, filename: str = "canvas.aseprit
     spr:saveAs("{filename}")
     return "Canvas created successfully: {filename}"
     """
-    
+
     success, output = AsepriteCommand.execute_lua_script(script)
-    
+
     if success:
         return f"Canvas created successfully: {filename}"
     else:
         return f"Failed to create canvas: {output}"
+
 
 @mcp.tool()
 async def add_layer(filename: str, layer_name: str) -> str:
@@ -34,7 +38,7 @@ async def add_layer(filename: str, layer_name: str) -> str:
     """
     if not os.path.exists(filename):
         return f"File {filename} not found"
-    
+
     script = f"""
     local spr = app.activeSprite
     if not spr then return "No active sprite" end
@@ -47,13 +51,14 @@ async def add_layer(filename: str, layer_name: str) -> str:
     spr:saveAs(spr.filename)
     return "Layer added successfully"
     """
-    
+
     success, output = AsepriteCommand.execute_lua_script(script, filename)
-    
+
     if success:
         return f"Layer '{layer_name}' added successfully to {filename}"
     else:
         return f"Failed to add layer: {output}"
+
 
 @mcp.tool()
 async def add_frame(filename: str) -> str:
@@ -64,7 +69,7 @@ async def add_frame(filename: str) -> str:
     """
     if not os.path.exists(filename):
         return f"File {filename} not found"
-    
+
     script = """
     local spr = app.activeSprite
     if not spr then return "No active sprite" end
@@ -76,9 +81,9 @@ async def add_frame(filename: str) -> str:
     spr:saveAs(spr.filename)
     return "Frame added successfully"
     """
-    
+
     success, output = AsepriteCommand.execute_lua_script(script, filename)
-    
+
     if success:
         return f"New frame added successfully to {filename}"
     else:

@@ -3,6 +3,7 @@ from typing import List, Dict, Any
 from ..core.commands import AsepriteCommand
 from .. import mcp
 
+
 @mcp.tool()
 async def draw_pixels(filename: str, pixels: List[Dict[str, Any]]) -> str:
     """Draw pixels on the canvas with specified colors.
@@ -34,7 +35,7 @@ async def draw_pixels(filename: str, pixels: List[Dict[str, Any]]) -> str:
         
         local img = cel.image
     """
-    
+
     # Add pixel drawing commands
     for pixel in pixels:
         x = pixel.get("x", 0)
@@ -45,27 +46,36 @@ async def draw_pixels(filename: str, pixels: List[Dict[str, Any]]) -> str:
         r = int(color[0:2], 16)
         g = int(color[2:4], 16)
         b = int(color[4:6], 16)
-        
+
         script += f"""
         img:putPixel({x}, {y}, Color({r}, {g}, {b}, 255))
         """
-    
+
     script += """
     end)
     
     spr:saveAs(spr.filename)
     return "Pixels drawn successfully"
     """
-    
+
     success, output = AsepriteCommand.execute_lua_script(script, filename)
-    
+
     if success:
         return f"Pixels drawn successfully in {filename}"
     else:
         return f"Failed to draw pixels: {output}"
 
+
 @mcp.tool()
-async def draw_line(filename: str, x1: int, y1: int, x2: int, y2: int, color: str = "#000000", thickness: int = 1) -> str:
+async def draw_line(
+    filename: str,
+    x1: int,
+    y1: int,
+    x2: int,
+    y2: int,
+    color: str = "#000000",
+    thickness: int = 1,
+) -> str:
     """Draw a line on the canvas.
 
     Args:
@@ -79,13 +89,13 @@ async def draw_line(filename: str, x1: int, y1: int, x2: int, y2: int, color: st
     """
     if not os.path.exists(filename):
         return f"File {filename} not found"
-    
+
     # Convert hex to RGB
     color = color.lstrip("#")
     r = int(color[0:2], 16)
     g = int(color[2:4], 16)
     b = int(color[4:6], 16)
-    
+
     script = f"""
     local spr = app.activeSprite
     if not spr then return "No active sprite" end
@@ -115,16 +125,25 @@ async def draw_line(filename: str, x1: int, y1: int, x2: int, y2: int, color: st
     spr:saveAs(spr.filename)
     return "Line drawn successfully"
     """
-    
+
     success, output = AsepriteCommand.execute_lua_script(script, filename)
-    
+
     if success:
         return f"Line drawn successfully in {filename}"
     else:
         return f"Failed to draw line: {output}"
 
+
 @mcp.tool()
-async def draw_rectangle(filename: str, x: int, y: int, width: int, height: int, color: str = "#000000", fill: bool = False) -> str:
+async def draw_rectangle(
+    filename: str,
+    x: int,
+    y: int,
+    width: int,
+    height: int,
+    color: str = "#000000",
+    fill: bool = False,
+) -> str:
     """Draw a rectangle on the canvas.
 
     Args:
@@ -138,13 +157,13 @@ async def draw_rectangle(filename: str, x: int, y: int, width: int, height: int,
     """
     if not os.path.exists(filename):
         return f"File {filename} not found"
-    
+
     # Convert hex to RGB
     color = color.lstrip("#")
     r = int(color[0:2], 16)
     g = int(color[2:4], 16)
     b = int(color[4:6], 16)
-    
+
     script = f"""
     local spr = app.activeSprite
     if not spr then return "No active sprite" end
@@ -172,13 +191,14 @@ async def draw_rectangle(filename: str, x: int, y: int, width: int, height: int,
     spr:saveAs(spr.filename)
     return "Rectangle drawn successfully"
     """
-    
+
     success, output = AsepriteCommand.execute_lua_script(script, filename)
-    
+
     if success:
         return f"Rectangle drawn successfully in {filename}"
     else:
         return f"Failed to draw rectangle: {output}"
+
 
 @mcp.tool()
 async def fill_area(filename: str, x: int, y: int, color: str = "#000000") -> str:
@@ -192,13 +212,13 @@ async def fill_area(filename: str, x: int, y: int, color: str = "#000000") -> st
     """
     if not os.path.exists(filename):
         return f"File {filename} not found"
-    
+
     # Convert hex to RGB
     color = color.lstrip("#")
     r = int(color[0:2], 16)
     g = int(color[2:4], 16)
     b = int(color[4:6], 16)
-    
+
     script = f"""
     local spr = app.activeSprite
     if not spr then return "No active sprite" end
@@ -225,16 +245,24 @@ async def fill_area(filename: str, x: int, y: int, color: str = "#000000") -> st
     spr:saveAs(spr.filename)
     return "Area filled successfully"
     """
-    
+
     success, output = AsepriteCommand.execute_lua_script(script, filename)
-    
+
     if success:
         return f"Area filled successfully in {filename}"
     else:
         return f"Failed to fill area: {output}"
 
+
 @mcp.tool()
-async def draw_circle(filename: str, center_x: int, center_y: int, radius: int, color: str = "#000000", fill: bool = False) -> str:
+async def draw_circle(
+    filename: str,
+    center_x: int,
+    center_y: int,
+    radius: int,
+    color: str = "#000000",
+    fill: bool = False,
+) -> str:
     """Draw a circle on the canvas.
 
     Args:
@@ -247,13 +275,13 @@ async def draw_circle(filename: str, center_x: int, center_y: int, radius: int, 
     """
     if not os.path.exists(filename):
         return f"File {filename} not found"
-    
+
     # Convert hex to RGB
     color = color.lstrip("#")
     r = int(color[0:2], 16)
     g = int(color[2:4], 16)
     b = int(color[4:6], 16)
-    
+
     script = f"""
     local spr = app.activeSprite
     if not spr then return "No active sprite" end
@@ -284,11 +312,10 @@ async def draw_circle(filename: str, center_x: int, center_y: int, radius: int, 
     spr:saveAs(spr.filename)
     return "Circle drawn successfully"
     """
-    
+
     success, output = AsepriteCommand.execute_lua_script(script, filename)
-    
+
     if success:
         return f"Circle drawn successfully in {filename}"
     else:
         return f"Failed to draw circle: {output}"
-    
