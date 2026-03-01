@@ -1,11 +1,11 @@
 import os
-from typing import List, Dict, Any
-from ..core.commands import AsepriteCommand
-from .. import mcp
+
+from aseprite_mcp.core.commands import AsepriteCommand
+from aseprite_mcp.mcp import mcp
 
 
-@mcp.tool()
-async def draw_pixels(filename: str, pixels: List[Dict[str, Any]]) -> str:
+@mcp.tool
+async def draw_pixels(filename: str, pixels: list[dict[str, object]]) -> str:
     """Draw pixels on the canvas with specified colors.
 
     Args:
@@ -20,7 +20,7 @@ async def draw_pixels(filename: str, pixels: List[Dict[str, Any]]) -> str:
     script = """
     local spr = app.activeSprite
     if not spr then return "No active sprite" end
-    
+
     app.transaction(function()
         local cel = app.activeCel
         if not cel then
@@ -32,7 +32,7 @@ async def draw_pixels(filename: str, pixels: List[Dict[str, Any]]) -> str:
                 return "No active cel and couldn't create one"
             end
         end
-        
+
         local img = cel.image
     """
 
@@ -53,7 +53,7 @@ async def draw_pixels(filename: str, pixels: List[Dict[str, Any]]) -> str:
 
     script += """
     end)
-    
+
     spr:saveAs(spr.filename)
     return "Pixels drawn successfully"
     """
@@ -66,7 +66,7 @@ async def draw_pixels(filename: str, pixels: List[Dict[str, Any]]) -> str:
         return f"Failed to draw pixels: {output}"
 
 
-@mcp.tool()
+@mcp.tool
 async def draw_line(
     filename: str,
     x1: int,
@@ -99,7 +99,7 @@ async def draw_line(
     script = f"""
     local spr = app.activeSprite
     if not spr then return "No active sprite" end
-    
+
     app.transaction(function()
         local cel = app.activeCel
         if not cel then
@@ -110,7 +110,7 @@ async def draw_line(
                 return "No active cel and couldn't create one"
             end
         end
-        
+
         local color = Color({r}, {g}, {b}, 255)
         local brush = Brush()
         brush.size = {thickness}
@@ -121,7 +121,7 @@ async def draw_line(
             points={{Point({x1}, {y1}), Point({x2}, {y2})}}
         }})
     end)
-    
+
     spr:saveAs(spr.filename)
     return "Line drawn successfully"
     """
@@ -134,7 +134,7 @@ async def draw_line(
         return f"Failed to draw line: {output}"
 
 
-@mcp.tool()
+@mcp.tool
 async def draw_rectangle(
     filename: str,
     x: int,
@@ -167,7 +167,7 @@ async def draw_rectangle(
     script = f"""
     local spr = app.activeSprite
     if not spr then return "No active sprite" end
-    
+
     app.transaction(function()
         local cel = app.activeCel
         if not cel then
@@ -178,7 +178,7 @@ async def draw_rectangle(
                 return "No active cel and couldn't create one"
             end
         end
-        
+
         local color = Color({r}, {g}, {b}, 255)
         local tool = {'"rectangle"' if not fill else '"filled_rectangle"'}
         app.useTool({{
@@ -187,7 +187,7 @@ async def draw_rectangle(
             points={{Point({x}, {y}), Point({x + width}, {y + height})}}
         }})
     end)
-    
+
     spr:saveAs(spr.filename)
     return "Rectangle drawn successfully"
     """
@@ -200,7 +200,7 @@ async def draw_rectangle(
         return f"Failed to draw rectangle: {output}"
 
 
-@mcp.tool()
+@mcp.tool
 async def fill_area(filename: str, x: int, y: int, color: str = "#000000") -> str:
     """Fill an area with color using the paint bucket tool.
 
@@ -222,7 +222,7 @@ async def fill_area(filename: str, x: int, y: int, color: str = "#000000") -> st
     script = f"""
     local spr = app.activeSprite
     if not spr then return "No active sprite" end
-    
+
     app.transaction(function()
         local cel = app.activeCel
         if not cel then
@@ -233,7 +233,7 @@ async def fill_area(filename: str, x: int, y: int, color: str = "#000000") -> st
                 return "No active cel and couldn't create one"
             end
         end
-        
+
         local color = Color({r}, {g}, {b}, 255)
         app.useTool({{
             tool="paint_bucket",
@@ -241,7 +241,7 @@ async def fill_area(filename: str, x: int, y: int, color: str = "#000000") -> st
             points={{Point({x}, {y})}}
         }})
     end)
-    
+
     spr:saveAs(spr.filename)
     return "Area filled successfully"
     """
@@ -254,7 +254,7 @@ async def fill_area(filename: str, x: int, y: int, color: str = "#000000") -> st
         return f"Failed to fill area: {output}"
 
 
-@mcp.tool()
+@mcp.tool
 async def draw_circle(
     filename: str,
     center_x: int,
@@ -285,7 +285,7 @@ async def draw_circle(
     script = f"""
     local spr = app.activeSprite
     if not spr then return "No active sprite" end
-    
+
     app.transaction(function()
         local cel = app.activeCel
         if not cel then
@@ -296,7 +296,7 @@ async def draw_circle(
                 return "No active cel and couldn't create one"
             end
         end
-        
+
         local color = Color({r}, {g}, {b}, 255)
         local tool = {'"ellipse"' if not fill else '"filled_ellipse"'}
         app.useTool({{
@@ -308,7 +308,7 @@ async def draw_circle(
             }}
         }})
     end)
-    
+
     spr:saveAs(spr.filename)
     return "Circle drawn successfully"
     """

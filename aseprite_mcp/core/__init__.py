@@ -1,1 +1,1 @@
-from . import commands
+from aseprite_mcp.core import commands

@@ -1,9 +1,10 @@
 import os
-from ..core.commands import AsepriteCommand
-from .. import mcp
+
+from aseprite_mcp.core.commands import AsepriteCommand
+from aseprite_mcp.mcp import mcp
 
 
-@mcp.tool()
+@mcp.tool
 async def export_sprite(
     filename: str, output_filename: str, format: str = "png"
 ) -> str:

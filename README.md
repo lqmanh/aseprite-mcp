@@ -6,21 +6,48 @@ Demo where Cursor draws a cloud in aseprite using the MCP:
 
 https://github.com/user-attachments/assets/572edf75-ab66-4700-87ee-d7d3d196c597
 
-## Local Installation
+## Installation
 
 ### Prerequisites
 
 - Python 3.13+
 - `uv` package manager
 
-### Installation:
+### Instructions
+
+#### Claude Code / Claude Desktop
+
+Add to your Claude Code / Claude Desktop configurations:
 
 ```json
 {
   "mcpServers": {
     "aseprite": {
-      "command": "/opt/homebrew/bin/uv",
-      "args": ["--directory", "/path/to/repo", "run", "-m", "aseprite_mcp"]
+      "command": "uv",
+      "args": [
+        "--directory",
+        "/path/to/aseprite-mcp",
+        "run",
+        "-m",
+        "aseprite_mcp"
+      ]
+    }
+  }
+}
+```
+
+#### OpenCode
+
+Add to your `opencode.json` (project root or `~/.config/opencode/opencode.json`):
+
+```json
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "aseprite": {
+      "type": "local",
+      "command": ["uv", "--directory", "/path/to/aseprite-mcp", "run", "-m", "aseprite_mcp"],
+      "enabled": true
     }
   }
 }

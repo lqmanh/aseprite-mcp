@@ -1,9 +1,10 @@
 import os
-from ..core.commands import AsepriteCommand
-from .. import mcp
+
+from aseprite_mcp.core.commands import AsepriteCommand
+from aseprite_mcp.mcp import mcp
 
 
-@mcp.tool()
+@mcp.tool
 async def create_canvas(
     width: int, height: int, filename: str = "canvas.aseprite"
 ) -> str:
@@ -28,7 +29,7 @@ async def create_canvas(
         return f"Failed to create canvas: {output}"
 
 
-@mcp.tool()
+@mcp.tool
 async def add_layer(filename: str, layer_name: str) -> str:
     """Add a new layer to the Aseprite file.
 
@@ -42,12 +43,12 @@ async def add_layer(filename: str, layer_name: str) -> str:
     script = f"""
     local spr = app.activeSprite
     if not spr then return "No active sprite" end
-    
+
     app.transaction(function()
         spr:newLayer()
         app.activeLayer.name = "{layer_name}"
     end)
-    
+
     spr:saveAs(spr.filename)
     return "Layer added successfully"
     """
@@ -60,7 +61,7 @@ async def add_layer(filename: str, layer_name: str) -> str:
         return f"Failed to add layer: {output}"
 
 
-@mcp.tool()
+@mcp.tool
 async def add_frame(filename: str) -> str:
     """Add a new frame to the Aseprite file.
 
@@ -73,11 +74,11 @@ async def add_frame(filename: str) -> str:
     script = """
     local spr = app.activeSprite
     if not spr then return "No active sprite" end
-    
+
     app.transaction(function()
         spr:newFrame()
     end)
-    
+
     spr:saveAs(spr.filename)
     return "Frame added successfully"
     """
