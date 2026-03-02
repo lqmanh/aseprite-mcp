@@ -54,5 +54,5 @@ def _validate_hex_color(v: str) -> str:
 HexColor = Annotated[
     str,
     PlainValidator(_validate_hex_color),
-    Field(default="#000000FF", description="Hex color code (#RRGGBB or #RRGGBBAA)"),
+    Field(description="Hex color code (#RRGGBB or #RRGGBBAA)"),
 ]
