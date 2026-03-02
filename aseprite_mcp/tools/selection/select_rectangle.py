@@ -3,14 +3,14 @@ from pydantic import BaseModel, Field
 from aseprite_mcp.core.commands import AsepriteCommand
 from aseprite_mcp.core.enums import SelectionMode
 from aseprite_mcp.core.schemas.outputs import OperationOutput
-from aseprite_mcp.core.validation import ExistingFile
+from aseprite_mcp.core.validation import FilePath
 from aseprite_mcp.mcp import mcp
 
 
 class SelectRectangleInput(BaseModel):
     """Input for rectangular selection."""
 
-    filename: ExistingFile = Field(description="Path to the Aseprite file")
+    filename: FilePath = Field(description="Path to the Aseprite file")
     x: int = Field(description="X coordinate of selection rectangle")
     y: int = Field(description="Y coordinate of selection rectangle")
     width: int = Field(gt=0, description="Width of selection rectangle")

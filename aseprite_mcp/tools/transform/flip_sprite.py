@@ -3,14 +3,14 @@ from pydantic import BaseModel, Field
 from aseprite_mcp.core.commands import AsepriteCommand
 from aseprite_mcp.core.enums import FlipDirection, TransformTarget
 from aseprite_mcp.core.schemas.outputs import OperationOutput
-from aseprite_mcp.core.validation import ExistingFile
+from aseprite_mcp.core.validation import FilePath
 from aseprite_mcp.mcp import mcp
 
 
 class FlipSpriteInput(BaseModel):
     """Input for flipping sprite."""
 
-    filename: ExistingFile = Field(description="Path to the Aseprite file")
+    filename: FilePath = Field(description="Path to the Aseprite file")
     direction: FlipDirection = Field(description="Flip direction")
     target: TransformTarget = Field(
         default=TransformTarget.SPRITE,

@@ -1,14 +1,14 @@
 from pydantic import BaseModel, Field
 
 from aseprite_mcp.core.commands import AsepriteCommand
-from aseprite_mcp.core.validation import ExistingFile
+from aseprite_mcp.core.validation import FilePath
 from aseprite_mcp.mcp import mcp
 
 
 class AddFrameInput(BaseModel):
     """Input for adding a new frame."""
 
-    filename: ExistingFile = Field(description="Path to the Aseprite file to modify")
+    filename: FilePath = Field(description="Path to the Aseprite file")
     duration_ms: int = Field(
         default=100, gt=0, le=65535, description="Frame duration in milliseconds"
     )

@@ -3,14 +3,14 @@ from pydantic import BaseModel, Field
 from aseprite_mcp.core.commands import AsepriteCommand
 from aseprite_mcp.core.schemas.outputs import OperationOutput
 from aseprite_mcp.core.utils import parse_hex_color
-from aseprite_mcp.core.validation import ExistingFile, HexColor
+from aseprite_mcp.core.validation import FilePath, HexColor
 from aseprite_mcp.mcp import mcp
 
 
 class SetPaletteInput(BaseModel):
     """Input for setting entire palette."""
 
-    filename: ExistingFile = Field(description="Path to the Aseprite file")
+    filename: FilePath = Field(description="Path to the Aseprite file")
     colors: list[HexColor] = Field(min_length=1, max_length=256)
 
 

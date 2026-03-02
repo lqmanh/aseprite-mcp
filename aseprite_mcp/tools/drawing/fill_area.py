@@ -3,14 +3,14 @@ from pydantic import BaseModel, Field
 from aseprite_mcp.core.commands import AsepriteCommand
 from aseprite_mcp.core.schemas.outputs import OperationOutput
 from aseprite_mcp.core.utils import parse_hex_color
-from aseprite_mcp.core.validation import ExistingFile, HexColor
+from aseprite_mcp.core.validation import FilePath, HexColor
 from aseprite_mcp.mcp import mcp
 
 
 class FillAreaInput(BaseModel):
     """Input for filling an area."""
 
-    filename: ExistingFile = Field(description="Path to the Aseprite file to modify")
+    filename: FilePath = Field(description="Path to the Aseprite file")
     x: int = Field(description="X coordinate to fill from")
     y: int = Field(description="Y coordinate to fill from")
     color: HexColor

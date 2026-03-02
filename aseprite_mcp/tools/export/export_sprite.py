@@ -1,17 +1,15 @@
-from pathlib import Path
-
 from pydantic import BaseModel, Field, field_validator
 
 from aseprite_mcp.core.commands import AsepriteCommand
-from aseprite_mcp.core.validation import ExistingFile
+from aseprite_mcp.core.validation import AbsPath, FilePath
 from aseprite_mcp.mcp import mcp
 
 
 class ExportSpriteInput(BaseModel):
     """Input for exporting a sprite."""
 
-    filename: ExistingFile = Field(description="Path to the Aseprite file to export")
-    output_filename: str = Field(description="Name of the output file")
+    filename: FilePath = Field(description="Path to the Aseprite file")
+    output_filename: AbsPath = Field(description="Name of the output file")
     format: str = Field(
         default="png", description="Output format (png, gif, jpg, etc.)"
     )
@@ -25,7 +23,7 @@ class ExportSpriteInput(BaseModel):
 class ExportSpriteOutput(BaseModel):
     """Response when a sprite is exported."""
 
-    file_path: str = Field(description="Absolute path to the exported file")
+    output_filename: AbsPath = Field(description="Absolute path to the exported file")
 
 
 @mcp.tool
@@ -47,7 +45,6 @@ def export_sprite(input: ExportSpriteInput) -> ExportSpriteOutput:
     success, output = AsepriteCommand.run_command(args)
 
     if success:
-        absolute_path = str(Path(output_filename).resolve())
-        return ExportSpriteOutput(file_path=absolute_path)
+        return ExportSpriteOutput(output_filename=output_filename)
     else:
         raise RuntimeError(f"Failed to export sprite: {output}")

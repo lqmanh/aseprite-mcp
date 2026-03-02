@@ -3,14 +3,14 @@ from pydantic import BaseModel, Field, field_validator
 from aseprite_mcp.core.commands import AsepriteCommand
 from aseprite_mcp.core.enums import TransformTarget
 from aseprite_mcp.core.schemas.outputs import OperationOutput
-from aseprite_mcp.core.validation import ExistingFile
+from aseprite_mcp.core.validation import FilePath
 from aseprite_mcp.mcp import mcp
 
 
 class RotateSpriteInput(BaseModel):
     """Input for rotating sprite."""
 
-    filename: ExistingFile = Field(description="Path to the Aseprite file")
+    filename: FilePath = Field(description="Path to the Aseprite file")
     angle: int = Field(description="Rotation angle: 90, 180, or 270 degrees")
     target: TransformTarget = Field(
         default=TransformTarget.SPRITE,

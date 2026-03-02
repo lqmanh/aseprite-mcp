@@ -2,6 +2,7 @@ from pydantic import BaseModel, Field
 
 from aseprite_mcp.core.commands import AsepriteCommand
 from aseprite_mcp.core.enums import ColorMode
+from aseprite_mcp.core.validation import AbsPath
 from aseprite_mcp.mcp import mcp
 
 
@@ -10,7 +11,7 @@ class CreateCanvasInput(BaseModel):
 
     width: int = Field(gt=0, le=65535, description="Width of the canvas in pixels")
     height: int = Field(gt=0, le=65535, description="Height of the canvas in pixels")
-    filename: str = Field(
+    filename: AbsPath = Field(
         default="canvas.aseprite", description="Name of the output file"
     )
     color_mode: ColorMode = Field(
@@ -21,7 +22,7 @@ class CreateCanvasInput(BaseModel):
 class CreateCanvasOutput(BaseModel):
     """Response when a canvas is created."""
 
-    file_path: str = Field(description="Absolute path to the created file")
+    output_filename: AbsPath = Field(description="Absolute path to the created file")
 
 
 @mcp.tool
@@ -58,6 +59,6 @@ def create_canvas(input: CreateCanvasInput) -> CreateCanvasOutput:
     success, output = AsepriteCommand.execute_lua_script(script)
 
     if success:
-        return CreateCanvasOutput(file_path=input.filename)
+        return CreateCanvasOutput(output_filename=input.filename)
     else:
         raise RuntimeError(f"Failed to create canvas: {output}")

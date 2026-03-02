@@ -3,14 +3,14 @@ from pydantic import BaseModel, Field
 from aseprite_mcp.core.commands import AsepriteCommand
 from aseprite_mcp.core.schemas.outputs import OperationOutput
 from aseprite_mcp.core.utils import escape_lua_str
-from aseprite_mcp.core.validation import ExistingFile, NonEmptyStr
+from aseprite_mcp.core.validation import FilePath, NonEmptyStr
 from aseprite_mcp.mcp import mcp
 
 
 class DeleteLayerInput(BaseModel):
     """Input for deleting a layer."""
 
-    filename: ExistingFile = Field(description="Path to the Aseprite file to modify")
+    filename: FilePath = Field(description="Path to the Aseprite file")
     layer_name: NonEmptyStr = Field(description="Name of the layer to delete")
 
 

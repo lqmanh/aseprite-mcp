@@ -4,7 +4,7 @@ from aseprite_mcp.core.commands import AsepriteCommand
 from aseprite_mcp.core.enums import AnimationDirection
 from aseprite_mcp.core.schemas.outputs import OperationOutput
 from aseprite_mcp.core.utils import escape_lua_str
-from aseprite_mcp.core.validation import ExistingFile, NonEmptyStr
+from aseprite_mcp.core.validation import FilePath, NonEmptyStr
 from aseprite_mcp.mcp import mcp
 
 
@@ -14,7 +14,7 @@ class CreateTagInput(BaseModel):
     Note: Frame indices are 0-based in Python, converted to 1-based for Lua.
     """
 
-    filename: ExistingFile = Field(description="Path to the Aseprite file")
+    filename: FilePath = Field(description="Path to the Aseprite file")
     tag_name: NonEmptyStr = Field(description="Name for the animation tag")
     from_frame: int = Field(
         ge=0, description="0-based starting frame index (inclusive)"

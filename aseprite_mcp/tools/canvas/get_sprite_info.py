@@ -4,14 +4,14 @@ from pydantic import BaseModel, Field
 
 from aseprite_mcp.core.commands import AsepriteCommand
 from aseprite_mcp.core.enums import ColorMode
-from aseprite_mcp.core.validation import ExistingFile
+from aseprite_mcp.core.validation import FilePath
 from aseprite_mcp.mcp import mcp
 
 
 class GetSpriteInfoInput(BaseModel):
     """Input for getting sprite information."""
 
-    filename: ExistingFile = Field(description="Path to the Aseprite file to inspect")
+    filename: FilePath = Field(description="Path to the Aseprite file")
 
 
 class GetSpriteInfoOutput(BaseModel):

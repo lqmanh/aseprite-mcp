@@ -2,14 +2,14 @@ from pydantic import BaseModel, Field
 
 from aseprite_mcp.core.commands import AsepriteCommand
 from aseprite_mcp.core.schemas.outputs import SpriteDimensions
-from aseprite_mcp.core.validation import ExistingFile
+from aseprite_mcp.core.validation import FilePath
 from aseprite_mcp.mcp import mcp
 
 
 class CropSpriteInput(BaseModel):
     """Input for cropping sprite."""
 
-    filename: ExistingFile = Field(description="Path to the Aseprite file")
+    filename: FilePath = Field(description="Path to the Aseprite file")
     x: int = Field(ge=0, description="Crop region X coordinate")
     y: int = Field(ge=0, description="Crop region Y coordinate")
     width: int = Field(gt=0, description="Crop region width")

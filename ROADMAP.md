@@ -52,9 +52,8 @@ Core tools that work with Aseprite's Lua API without requiring additional Python
 
 1. **0-based indexing in Python** - All frame/layer indices use 0-based indexing in Python API, converted to 1-based for Lua
 2. **StrEnum types** - Using `AnimationDirection`, `FlipDirection`, `TransformTarget`, `SelectionMode`, `PaletteSortMethod` for type safety
-3. **Structured outputs** - Tools return Pydantic models instead of plain strings where appropriate
-4. **Hex color format** - All colors use #RRGGBB or #RRGGBBAA format with alpha support
-5. **Pydantic validation** - Input validation via Pydantic with reusable `ExistingFile`, `HexColor`, `NonEmptyStr` types
+3. **Input validation** - Input validation via Pydantic with reusable `FilePath`, `HexColor`, `NonEmptyStr`,... types
+4. **Structured outputs** - Tools return Pydantic models instead of plain strings
 
 ## Phase 2: Advanced Features
 

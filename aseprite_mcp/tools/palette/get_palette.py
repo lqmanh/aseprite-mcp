@@ -3,14 +3,14 @@ import json
 from pydantic import BaseModel, Field
 
 from aseprite_mcp.core.commands import AsepriteCommand
-from aseprite_mcp.core.validation import ExistingFile, HexColor
+from aseprite_mcp.core.validation import FilePath, HexColor
 from aseprite_mcp.mcp import mcp
 
 
 class GetPaletteInput(BaseModel):
     """Input for getting palette."""
 
-    filename: ExistingFile = Field(description="Path to the Aseprite file")
+    filename: FilePath = Field(description="Path to the Aseprite file")
 
 
 class GetPaletteOutput(BaseModel):

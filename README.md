@@ -28,7 +28,8 @@ Add to your Claude Code / Claude Desktop configurations:
       "command": "uv",
       "args": ["run", "--with", "/path/to/aseprite-mcp", "-m", "aseprite_mcp"],
       "env": {
-        "ASEPRITE_PATH": "/path/to/aseprite"
+        "ASEPRITE_PATH": "/path/to/aseprite",
+        "ASEPRITE_WORKDIR": "/path/to/your/project"
       }
     }
   }
@@ -54,7 +55,8 @@ Add to your `opencode.json` (project root or `~/.config/opencode/opencode.json`)
         "aseprite_mcp"
       ],
       "environment": {
-        "ASEPRITE_PATH": "/path/to/aseprite"
+        "ASEPRITE_PATH": "/path/to/aseprite",
+        "ASEPRITE_WORKDIR": "{env:PWD}"
       },
       "enabled": true
     }

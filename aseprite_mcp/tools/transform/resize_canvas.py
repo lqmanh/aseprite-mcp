@@ -2,14 +2,14 @@ from pydantic import BaseModel, Field, field_validator
 
 from aseprite_mcp.core.commands import AsepriteCommand
 from aseprite_mcp.core.schemas.outputs import SpriteDimensions
-from aseprite_mcp.core.validation import ExistingFile
+from aseprite_mcp.core.validation import FilePath
 from aseprite_mcp.mcp import mcp
 
 
 class ResizeCanvasInput(BaseModel):
     """Input for resizing canvas."""
 
-    filename: ExistingFile = Field(description="Path to the Aseprite file")
+    filename: FilePath = Field(description="Path to the Aseprite file")
     width: int = Field(gt=0, le=65535, description="New canvas width")
     height: int = Field(gt=0, le=65535, description="New canvas height")
     anchor: str = Field(

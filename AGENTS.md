@@ -68,7 +68,7 @@ uv run pytest tests/test_file.py::test_function_name -v
 - Define input/output data as Pydantic models in the same file
 - Name input models as `<ToolName>Input` and output models as `<ToolName>Output`
 - Use shared models from `core/schemas/inputs.py` or `core/schemas/outputs.py` only when used by multiple tools
-- Validate inputs using Pydantic annotated validators (`ExistingFile`, `HexColor`, `NonEmptyStr`,...)
+- Validate inputs using Pydantic annotated validators (`FilePath`, `HexColor`, `NonEmptyStr`,...)
 - Return descriptive success/failure messages
 
 ### Error Handling
@@ -105,7 +105,7 @@ uv run pytest tests/test_file.py::test_function_name -v
     - `outputs.py`: Shared output models (OperationOutput, PixelData, SpriteDimensions)
   - `types.py`: Additional type definitions
   - `utils.py`: Utility functions (parse_hex_color, escape_lua_str)
-  - `validation.py`: Reusable Pydantic validators (ExistingFile, HexColor, NonEmptyStr)
+  - `validation.py`: Reusable Pydantic validators (`FilePath`, `HexColor`, `NonEmptyStr`,...)
 
 ### Security
 

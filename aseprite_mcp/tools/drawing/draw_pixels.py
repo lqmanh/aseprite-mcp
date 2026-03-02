@@ -3,14 +3,14 @@ from pydantic import BaseModel, Field
 from aseprite_mcp.core.commands import AsepriteCommand
 from aseprite_mcp.core.schemas.outputs import OperationOutput, PixelData
 from aseprite_mcp.core.utils import parse_hex_color
-from aseprite_mcp.core.validation import ExistingFile
+from aseprite_mcp.core.validation import FilePath
 from aseprite_mcp.mcp import mcp
 
 
 class DrawPixelsInput(BaseModel):
     """Input for drawing pixels."""
 
-    filename: ExistingFile = Field(description="Path to the Aseprite file to modify")
+    filename: FilePath = Field(description="Path to the Aseprite file")
     pixels: list[PixelData] = Field(description="List of pixel data to draw")
 
 

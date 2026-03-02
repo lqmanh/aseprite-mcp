@@ -2,14 +2,14 @@ from pydantic import BaseModel, Field
 
 from aseprite_mcp.core.commands import AsepriteCommand
 from aseprite_mcp.core.schemas.outputs import OperationOutput
-from aseprite_mcp.core.validation import ExistingFile
+from aseprite_mcp.core.validation import FilePath
 from aseprite_mcp.mcp import mcp
 
 
 class MoveSelectionInput(BaseModel):
     """Input for moving selection."""
 
-    filename: ExistingFile = Field(description="Path to the Aseprite file")
+    filename: FilePath = Field(description="Path to the Aseprite file")
     dx: int = Field(description="Horizontal offset in pixels (can be negative)")
     dy: int = Field(description="Vertical offset in pixels (can be negative)")
 
